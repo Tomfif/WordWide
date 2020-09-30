@@ -55,14 +55,14 @@ WORLD_CHOICES = (
 class Genre(models.Model):
     genre = models.SmallIntegerField(choices=GENRE_CHOICES, default=-1)
 
-    def __str__(self):
-        return self.genre
+    # def __str__(self):
+    #     return self.genre
 
 class World(models.Model):
     world = models.SmallIntegerField(choices=WORLD_CHOICES, default=-1)
 
-    def __str__(self):
-        return self.world
+    # def __str__(self):
+    #     return self.world
 
 
 class Hero(models.Model):
@@ -71,8 +71,6 @@ class Hero(models.Model):
     strength = models.CharField(max_length=64, null=True)
     speed = models.CharField(max_length=64, null=True)
     durability = models.CharField(max_length=64, null=True)
-    power = models.CharField(max_length=64, null=True)
-    combat = models.CharField(max_length=64, null=True)
     biography = models.CharField(max_length=64, null=True)
     alteregos = models.CharField(max_length=64, null=True)
     gender = models.CharField(max_length=64, null=True)
@@ -90,6 +88,7 @@ class Story(models.Model):
     genre = models.OneToOneField(Genre, on_delete=models.CASCADE)
     hero = models.OneToOneField(Hero, on_delete=models.CASCADE)
     world = models.OneToOneField(World, on_delete=models.CASCADE)
+    content = models.TextField(default="", blank=True)
 
     def __str__(self):
         return self.title
