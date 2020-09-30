@@ -4,7 +4,7 @@ from random import random, randint
 import requests
 from django.views import View
 
-from WWapp.models import Hero, Genre, World
+from WWapp.models import Hero, Genre, World, Story
 
 
 
@@ -34,5 +34,14 @@ class StoryDrawnView(View):
         genre = Genre.objects.create(genre=rnd_genre)
         world = World.objects.create(world=rnd_world)
 
+        return render(request, "storydrawn.html", context={"hero": hero, "genre": genre, "world": world})
 
-        return render(request, "storydrawn.html", context={"hero": hero, "genre":genre, "world":world})
+    def post(self, request):
+        title = request.POST.get('title')
+        hero = request.POST.get('hero')
+        author = request.POST.get('author')
+        genre = request.POST.get('genre')
+        world = request.POST.get('world')
+        story = Story.objects.create(title=title, hero=hero, author=author, genre=genre, world=world)
+        return redirect(f'/story/modify/{story.id}/')
+
