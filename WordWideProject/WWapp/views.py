@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.shortcuts import render, redirect, get_object_or_404
 from random import random, randint
 
@@ -5,7 +7,7 @@ import requests
 from django.views import View
 
 from WWapp.models import Hero, Genre, World, Story
-
+from django.views.generic import ListView
 
 
 class StoryDrawnView(View):
@@ -45,3 +47,11 @@ class StoryDrawnView(View):
         story = Story.objects.create(title=title, hero=hero, author=author, genre=genre, world=world)
         return redirect(f'/story/modify/{story.id}/')
 
+class LandingView(View):
+    def get(self, request):
+        ctx = {"actual_date": datetime.now()}
+        return render(request, "landing_page.html", ctx)
+
+class StoriesListView(ListView):
+    template_name = 'stories_list.html'
+    model = Story
