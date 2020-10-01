@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+ <form method="POST">
+     <meta charset="UTF-8">
+
+      {% csrf_token %}
+<head>
+    <title>Title</title>
+</head>
+<body>
+<p>{{hero.name}}</p>
+
+<p>{{hero.biography}}</p>
+<p>{{hero.occupation}}</p>
+<p>{{genre}}</p>
+<p>{{world}}</p>
+
+ <img src="{{hero.image}}">
+
+
+<input type="text" class="w-100 p-1" name=title value="">
+<input type="text" class="w-100 p-1" name=author value="">
+
+<button type="submit" class="btn btn-primary">Start Your Story</button>
+</body>
+</html>

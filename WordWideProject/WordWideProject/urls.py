@@ -1,4 +1,4 @@
-"""WorldWideProject URL Configuration
+"""WordWideProject URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -16,9 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from WWapp.views import StoryDrawnView
+from WWapp.views import StoryDrawnView, LandingView, StoriesListView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('storydrawn/', StoryDrawnView.as_view()),
+    path('', LandingView.as_view()),
+    path('stories/', StoriesListView.as_view()),
 ]

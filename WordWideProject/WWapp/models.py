@@ -55,28 +55,29 @@ WORLD_CHOICES = (
 class Genre(models.Model):
     genre = models.SmallIntegerField(choices=GENRE_CHOICES, default=-1)
 
-    # def __str__(self):
-    #     return self.genre
+    def __str__(self):
+        return self.get_genre_display()
+
 
 class World(models.Model):
     world = models.SmallIntegerField(choices=WORLD_CHOICES, default=-1)
 
-    # def __str__(self):
-    #     return self.world
+    def __str__(self):
+        return self.get_world_display()
 
 
 class Hero(models.Model):
-    name = models.CharField(max_length=64, null=True)
-    intelligence = models.CharField(max_length=64, null=True)
-    strength = models.CharField(max_length=64, null=True)
-    speed = models.CharField(max_length=64, null=True)
-    durability = models.CharField(max_length=64, null=True)
-    biography = models.CharField(max_length=64, null=True)
-    alteregos = models.CharField(max_length=64, null=True)
-    gender = models.CharField(max_length=64, null=True)
-    race = models.CharField(max_length=64, null=True)
-    occupation = models.CharField(max_length=64, null=True)
-    image = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True)
+    intelligence = models.CharField(max_length=200, null=True)
+    strength = models.CharField(max_length=200, null=True)
+    speed = models.CharField(max_length=200, null=True)
+    durability = models.CharField(max_length=200, null=True)
+    biography = models.CharField(max_length=200, null=True)
+    alteregos = models.CharField(max_length=200, null=True)
+    gender = models.CharField(max_length=200, null=True)
+    race = models.CharField(max_length=200, null=True)
+    occupation = models.CharField(max_length=200, null=True)
+    image = models.CharField(max_length=255, null=True)
 
     def __str__(self):
         return self.name
