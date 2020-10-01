@@ -52,6 +52,22 @@ WORLD_CHOICES = (
     (9, 'Neverland from Peter Pan'),
 )
 
+
+TITLE_CHOICES = (
+    (-1, 'not defined'),
+    (0, 'Rings'),
+    (1, "The Fall of The Orb"),
+    (2, "The Voice of the Heir"),
+    (3, "The Specter in the Vale"),
+    (4, "Sign of the Crooked Cottage"),
+    (5, "Babylon Grieving"),
+    (6, "Sword`s Voyage"),
+    (7, "Clue of the Split Amulet"),
+    (8, "Bam Went My Heart"),
+    (9, "The Spell in the Dusk"),
+    (10, "Wet Wild Winter"),
+)
+
 class Genre(models.Model):
     genre = models.SmallIntegerField(choices=GENRE_CHOICES, default=-1)
 
@@ -64,6 +80,13 @@ class World(models.Model):
 
     def __str__(self):
         return self.get_world_display()
+
+
+class Title(models.Model):
+    title = models.SmallIntegerField(choices=TITLE_CHOICES, default=-1)
+
+    def __str__(self):
+        return self.get_title_display()
 
 
 class Hero(models.Model):

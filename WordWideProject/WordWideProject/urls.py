@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from WWapp.views import StoryDrawnView, LandingView, StoriesListView
+from WWapp.views import StoryDrawnView, LandingView, StoriesListView, StoryUpdate
 
 
 urlpatterns = [
@@ -24,4 +24,5 @@ urlpatterns = [
     path('storydrawn/', StoryDrawnView.as_view()),
     path('', LandingView.as_view()),
     path('stories/', StoriesListView.as_view()),
+    path('modifystory/<int:pk>/', StoryUpdate.as_view()),
 ]
