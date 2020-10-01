@@ -1,26 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
- <form method="POST">
-     <meta charset="UTF-8">
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <h1>DRAWN STORY</h1>
+    <table class="table border-bottom schedules-content">
 
-      {% csrf_token %}
-<head>
-    <title>Title</title>
-</head>
-<body>
-<p>{{hero.name}}</p>
+        <tbody class="text-color-lighter">
 
-<p>{{hero.biography}}</p>
-<p>{{hero.occupation}}</p>
-<p>{{genre}}</p>
-<p>{{world}}</p>
+            <tr class="d-flex">
+            <th scope="row" class="col-1"> {{ story.title }}</th>
+            <th scope="row" class="col-1"> {{ story.genre}}</th>
+            <th scope="row" class="col-1"> {{ story.world }}</th>
 
- <img src="{{hero.image}}">
+            <td class="col-2">
+                {{ hero.name }})
+            </td>
+            <td class="col-7">
+                {{ story.content }}
+            </td>
 
+<a href="/modifystory/{{story.id}}/" class="btn btn-secondary" role="button">Start Your Story</a>
 
-<input type="text" class="w-100 p-1" name=title value="">
-<input type="text" class="w-100 p-1" name=author value="">
-
-<button type="submit" class="btn btn-primary">Start Your Story</button>
-</body>
-</html>
+        </tbody>
+    </table>
+{% endblock %}

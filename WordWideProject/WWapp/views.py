@@ -6,8 +6,8 @@ from random import random, randint
 import requests
 from django.views import View
 
-from WWapp.models import Hero, Genre, World, Story
-from django.views.generic import ListView
+from WWapp.models import Hero, Genre, World, Story, Title
+from django.views.generic import ListView, UpdateView
 
 
 class StoryDrawnView(View):
@@ -15,6 +15,7 @@ class StoryDrawnView(View):
         rnd_hero = randint(1, 731)
         rnd_genre = randint(0, 21)
         rnd_world = randint(0, 9)
+        rnd_title = randint(0, 10)
         url = 'https://superheroapi.com/api/5072836502742329/'
         new_url = "{}/{}".format(url, rnd_hero)
         response = requests.get(new_url)
@@ -35,17 +36,20 @@ class StoryDrawnView(View):
                                    image=image)
         genre = Genre.objects.create(genre=rnd_genre)
         world = World.objects.create(world=rnd_world)
+        title = Title.objects.create(title=rnd_title)
 
-        return render(request, "storydrawn.html", context={"hero": hero, "genre": genre, "world": world})
+        story = Story.objects.create(title=title, hero=hero, genre=genre, world=world)
 
-    def post(self, request):
-        title = request.POST.get('title')
-        hero = request.POST.get('hero')
-        author = request.POST.get('author')
-        genre = request.POST.get('genre')
-        world = request.POST.get('world')
-        story = Story.objects.create(title=title, hero=hero, author=author, genre=genre, world=world)
-        return redirect(f'/story/modify/{story.id}/')
+        return render(request, "storydrawn.html", context={"hero": hero, "genre": genre, "world": world, "story": story})
+
+    # def post(self, request):
+    #     title = request.POST.get('title')
+    #     hero = request.POST.get('hero')
+    #     author = request.POST.get('author')
+    #     genre = request.POST.get('genre')
+    #     world = request.POST.get('world')
+    #     story = Story.objects.create(title=title, hero=hero, author=author, genre=genre, world=world)
+    #     return redirect(f'/story/modify/{story.id}/')
 
 class LandingView(View):
     def get(self, request):
@@ -55,3 +59,8 @@ class LandingView(View):
 class StoriesListView(ListView):
     template_name = 'stories_list.html'
     model = Story
+
+class StoryUpdate(UpdateView):
+    model = Story
+    fields = ['title', 'author', 'genre', 'hero', 'world','content']
+    success_url = "/"
