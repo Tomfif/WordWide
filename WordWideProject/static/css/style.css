@@ -2,14 +2,14 @@
 /*---- Main style ----*/
 /*------------------------------*/
 :root {
-  --link-color: #ff6600;
+  --link-color: #79d2a6;
   --light-link-color: #fffffa;
   --background-color: #4b4c4a;
-  --lighter-background-color: #5a615f;
+  --lighter-background-color: #b3cccc;
   --lighter-text-color: #9fa292;
   --dark-text: #000000;
   --blue: #007bff;
-  --yellow: #ffc107;
+  --yellow: #b3e6ff;
   --green: #1e7e34;
   font-size: 16px;
 }
@@ -34,7 +34,7 @@ p {
 }
 
 .bg-light {
-background: #EAEAEA;
+background: #ffe6cc;
 }
 
 .noPadding {
