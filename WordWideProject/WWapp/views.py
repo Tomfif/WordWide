@@ -7,7 +7,7 @@ import requests
 from django.views import View
 
 from WWapp.models import Hero, Genre, World, Story, Title
-from django.views.generic import ListView, UpdateView
+from django.views.generic import ListView, UpdateView, DetailView
 
 
 class StoryDrawnView(View):
@@ -38,7 +38,7 @@ class StoryDrawnView(View):
         world = World.objects.create(world=rnd_world)
         title = Title.objects.create(title=rnd_title)
 
-        story = Story.objects.create(title=title, hero=hero, genre=genre, world=world)
+        story = Story.objects.create(title=title, hero=hero, genre=genre, world=world, author=self.request.user)
 
         return render(request, "storydrawn.html", context={"hero": hero, "genre": genre, "world": world, "story": story})
 
@@ -64,3 +64,7 @@ class StoryUpdate(UpdateView):
     model = Story
     fields = ['title', 'author', 'genre', 'hero', 'world','content']
     success_url = "/"
+
+class StoryDetailsView(DetailView):
+    model = Story
+    template_name = 'story_details_view.html'

@@ -1,3 +1,6 @@
+from datetime import datetime
+from django.utils import timezone
+from django.contrib.auth.models import User
 from django.db import models
 
 GENRE_CHOICES = (
@@ -107,11 +110,11 @@ class Hero(models.Model):
 
 class Story(models.Model):
     title = models.CharField(max_length=250)
-    author = models.CharField(max_length=64, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    genre = models.OneToOneField(Genre, on_delete=models.CASCADE)
-    hero = models.OneToOneField(Hero, on_delete=models.CASCADE)
-    world = models.OneToOneField(World, on_delete=models.CASCADE)
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+    hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
+    world = models.ForeignKey(World, on_delete=models.CASCADE)
     content = models.TextField(default="", blank=True)
 
     def __str__(self):
@@ -121,6 +124,6 @@ class Rating(models.Model):
     comment = models.CharField(max_length=120)
     stars = models.PositiveIntegerField(choices=STARS_CHOICES, default=5)
     story = models.ForeignKey(Story, on_delete=models.CASCADE)
-
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
 

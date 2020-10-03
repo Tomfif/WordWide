@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'USER' : 'postgres',
         'PASSWORD' : 'coderslab',
-        'NAME' : 'worldwide',
+        'NAME' : 'wordwide',
         'HOST' : 'localhost'
     }
 }
