@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <h1>DRAWN STORY</h1>
+    <table class="table border-bottom schedules-content">
+
+        <tbody class="text-color-lighter">
+
+            <tr class="d-flex">
+            <th scope="row" class="col-1"> {{ story.title }}</th>
+            <th scope="row" class="col-1"> {{ story.genre}}</th>
+            <th scope="row" class="col-1"> {{ story.world }}</th>
+
+
+            <td class="col-2">
+                {{ hero.name }}
+            </td>
+
+                <img src="{{hero.image}}" alt="Hero">
+            <td class="col-7">
+                {{ story.content }}
+            </td>
+
+<a href="/modifystory/{{story.id}}/" class="btn btn-secondary" role="button">Start Your Story</a>
+
+        </tbody>
+    </table>
+{% endblock %}
