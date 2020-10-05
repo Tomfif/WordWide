@@ -11,7 +11,7 @@ from django.views import View
 from WWapp.models import Hero, Genre, World, Story, Title
 from django.views.generic import ListView, UpdateView, DetailView
 
-from WordWideProject.WWapp.forms import AddUserForm
+from WWapp.forms import AddUserForm
 
 
 class StoryDrawnView(View):
@@ -85,8 +85,8 @@ class AddUserView(View):
                 return HttpResponse("Użytkownik z takim loginiem juz istnieje")
             else:
                 user = User.objects.create_user(username=form.cleaned_data['username'],
-                                                email=form.cleaned_data['email'],
-                                                password=form.cleaned_data['password'])
+                                                email=form.cleaned_data['mail'],
+                                                password=form.cleaned_data['password1'])
                 user.last_name = form.cleaned_data['last_name']
                 user.first_name = form.cleaned_data['first_name']
                 user.save()
