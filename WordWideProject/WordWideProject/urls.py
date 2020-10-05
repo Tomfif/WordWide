@@ -16,8 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from WWapp.views import StoryDrawnView, LandingView, StoriesListView, StoryUpdate, StoryDetailsView
-
+from WWapp.views import StoryDrawnView, LandingView, StoriesListView, StoryUpdate, StoryDetailsView,AddUserView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +25,5 @@ urlpatterns = [
     path('stories/', StoriesListView.as_view()),
     path('modifystory/<int:pk>/', StoryUpdate.as_view()),
     path('story_details/<int:pk>/', StoryDetailsView.as_view()),
+    path('add_user/', AddUserView.as_view(), name="add-user"),
 ]

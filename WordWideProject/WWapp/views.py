@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from random import random, randint
 
@@ -8,6 +10,8 @@ from django.views import View
 
 from WWapp.models import Hero, Genre, World, Story, Title
 from django.views.generic import ListView, UpdateView, DetailView
+
+from WordWideProject.WWapp.forms import AddUserForm
 
 
 class StoryDrawnView(View):
@@ -68,3 +72,23 @@ class StoryUpdate(UpdateView):
 class StoryDetailsView(DetailView):
     model = Story
     template_name = 'story_details_view.html'
+
+
+class AddUserView(View):
+    def get(self, request):
+        form = AddUserForm()
+        return render(request, 'add_user.html', {'form': form})
+    def post(self, request):
+        form = AddUserForm(request.POST)
+        if form.is_valid():
+            if User.objects.filter(username=form.cleaned_data['username']).exists():
+                return HttpResponse("Użytkownik z takim loginiem juz istnieje")
+            else:
+                user = User.objects.create_user(username=form.cleaned_data['username'],
+                                                email=form.cleaned_data['email'],
+                                                password=form.cleaned_data['password'])
+                user.last_name = form.cleaned_data['last_name']
+                user.first_name = form.cleaned_data['first_name']
+                user.save()
+                return redirect('/')
+        return render(request, 'add_user.html', {'form': form})
