@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -9,9 +10,10 @@ import requests
 from django.views import View
 
 from WWapp.models import Hero, Genre, World, Story, Title
-from django.views.generic import ListView, UpdateView, DetailView
+from django.views.generic import ListView, UpdateView, DetailView, FormView
 
-from WordWideProject.WWapp.forms import AddUserForm
+from WWapp.forms import AddUserForm, LoginUserForm
+
 
 
 class StoryDrawnView(View):
@@ -85,10 +87,28 @@ class AddUserView(View):
                 return HttpResponse("Użytkownik z takim loginiem juz istnieje")
             else:
                 user = User.objects.create_user(username=form.cleaned_data['username'],
-                                                email=form.cleaned_data['email'],
-                                                password=form.cleaned_data['password'])
+                                                email=form.cleaned_data['mail'],
+                                                password=form.cleaned_data['password1'])
                 user.last_name = form.cleaned_data['last_name']
                 user.first_name = form.cleaned_data['first_name']
                 user.save()
                 return redirect('/')
         return render(request, 'add_user.html', {'form': form})
+
+class LoginUserView(FormView):
+    template_name = 'login_user.html'
+    form_class = LoginUserForm
+    success_url = '/'
+    def form_valid(self, form):
+        user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+        if user is not None:
+            login(self.request, user)
+        else:
+            return HttpResponse("Invalid User")
+        return super(LoginUserView, self).form_valid(form)
+
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return HttpResponse("Logged out")

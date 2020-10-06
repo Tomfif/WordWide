@@ -24,3 +24,8 @@ class AddUserForm(forms.Form):
             if user:
                 raise forms.ValidationError('Login exists')
         return username
+
+
+class LoginUserForm(forms.Form):
+    username = forms.CharField(label='Login', max_length=100)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
