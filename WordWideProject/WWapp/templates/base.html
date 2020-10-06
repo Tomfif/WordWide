@@ -41,6 +41,13 @@
             <h5 class="text-light">Copyright <span class="footer-text-color">WordWide.pl</span></h5>
         </div>
     </footer>
+    {% block footer %}
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout-user' %}">Logout</a>
+            {% else %}
+            <a href="{% url 'login-user' %}">Login</a>
+        {% endif %}
+    {% endblock %}
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
