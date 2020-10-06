@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <h1> My Stories</h1>
+    <table class="table border-bottom schedules-content">
+        <thead>
+        <tr class="d-flex text-color-darker">
+            <th scope="col" class="col-1">ID</th>
+            <th scope="col" class="col-2">NAME</th>
+            <th scope="col" class="col-7">TEXT</th>
+            <th scope="col" class="col-2 center">ACTION</th>
+        </tr>
+        </thead>
+        <tbody class="text-color-lighter">
+        {% for story in object_list %}
+            <tr class="d-flex">
+            <th scope="row" class="col-1"> {{ story.id }}</th>
+            <td class="col-2">
+                {{ story.author }}({{ story.votes }})
+            </td>
+            <td class="col-7">
+                {{ story.content }}
+            </td>
+            <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
+
+                <a href="/modifystory/{{ story.id }}/"
+                   class="btn btn-info rounded-0 text-light m-1">Edit</a>
+
+            </td>
+            <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
+
+                <a href="/storydrawn/"
+                   class="btn btn-info rounded-0 text-light m-1">New Story</a>
+
+            </td>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}
