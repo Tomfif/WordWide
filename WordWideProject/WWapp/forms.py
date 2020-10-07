@@ -1,6 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
 
+from WWapp.models import Story
+
+
 class AddUserForm(forms.Form):
     username = forms.CharField(label='Login', max_length=100)
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -29,3 +32,13 @@ class AddUserForm(forms.Form):
 class LoginUserForm(forms.Form):
     username = forms.CharField(label='Login', max_length=100)
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
+
+class StoryForm(forms.ModelForm):
+    title =  forms.CharField(disabled=True)
+    author =  forms.CharField(disabled=True)
+    genre =  forms.CharField(disabled=True)
+    hero =  forms.CharField(disabled=True)
+    world =  forms.CharField(disabled=True)
+    class Meta:
+        model = Story
+        fields = ['title', 'author', 'genre', 'hero', 'world', 'content']

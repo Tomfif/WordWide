@@ -18,6 +18,8 @@ from django.urls import path
 
 from WWapp.views import StoryDrawnView, LandingView, StoriesListView, StoryUpdate, StoryDetailsView, AddUserView, LoginUserView, LogoutView
 
+from WWapp.views import MyStoriesListView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('storydrawn/', StoryDrawnView.as_view()),
@@ -28,4 +30,5 @@ urlpatterns = [
     path('register/', AddUserView.as_view(), name="add-user"),
     path('login/', LoginUserView.as_view(), name="login-user"),
     path('logout/', LogoutView.as_view(), name="logout-user"),
+    path('mystories/', MyStoriesListView.as_view()),
 ]

@@ -12,7 +12,7 @@ from django.views import View
 from WWapp.models import Hero, Genre, World, Story, Title
 from django.views.generic import ListView, UpdateView, DetailView, FormView
 
-from WWapp.forms import AddUserForm, LoginUserForm
+from WWapp.forms import AddUserForm, LoginUserForm, StoryForm
 
 
 
@@ -68,7 +68,7 @@ class StoriesListView(ListView):
 
 class StoryUpdate(UpdateView):
     model = Story
-    fields = ['title', 'author', 'genre', 'hero', 'world','content']
+    form_class = StoryForm
     success_url = "/"
 
 class StoryDetailsView(DetailView):
@@ -112,3 +112,9 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return HttpResponse("Logged out")
+
+class MyStoriesListView(ListView):
+    template_name = 'my_stories_list.html'
+    model = Story
+
+
