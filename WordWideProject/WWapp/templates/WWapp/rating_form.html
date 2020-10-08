@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+    Add a rating<br>
+    <form method="post">
+    {% csrf_token %}
+    {{ form.as_ul }}
+    <input type="submit" value="Add!">
+    </form>
+
+{% endblock %}
