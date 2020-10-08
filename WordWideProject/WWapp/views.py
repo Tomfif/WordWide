@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -9,10 +10,11 @@ from random import random, randint
 import requests
 from django.views import View
 
-from WWapp.models import Hero, Genre, World, Story, Title
-from django.views.generic import ListView, UpdateView, DetailView, FormView
+from WWapp.models import Hero, Genre, World, Story, Title, Rating
+from django.views.generic import ListView, UpdateView, DetailView, FormView, CreateView
 
 from WWapp.forms import AddUserForm, LoginUserForm, StoryForm
+
 
 
 
@@ -84,7 +86,7 @@ class AddUserView(View):
         form = AddUserForm(request.POST)
         if form.is_valid():
             if User.objects.filter(username=form.cleaned_data['username']).exists():
-                return HttpResponse("Użytkownik z takim loginiem juz istnieje")
+                return HttpResponse("User already exists")
             else:
                 user = User.objects.create_user(username=form.cleaned_data['username'],
                                                 email=form.cleaned_data['mail'],
@@ -111,10 +113,15 @@ class LoginUserView(FormView):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        return HttpResponse("Logged out")
+        return redirect('/')
 
-class MyStoriesListView(ListView):
+class MyStoriesListView(LoginRequiredMixin, ListView):
     template_name = 'my_stories_list.html'
     model = Story
 
+
+class RatingCreate(CreateView):
+    model = Rating
+    fields = ['comment', 'stars']
+    success_url = "/stories/"
 

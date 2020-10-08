@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from ckeditor.fields import RichTextField
 
 GENRE_CHOICES = (
     (-1, 'not defined'),
@@ -113,10 +114,11 @@ class Story(models.Model):
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
     hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
     world = models.ForeignKey(World, on_delete=models.CASCADE)
-    content = models.TextField(default="", blank=True)
+    content = RichTextField(default="", blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        return f'{self.author} {self.title} {self.genre.get_genre_display()} {self.hero} {self.world}'
+
 
 class Rating(models.Model):
     comment = models.CharField(max_length=120)

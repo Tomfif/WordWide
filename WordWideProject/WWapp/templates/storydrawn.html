@@ -6,22 +6,31 @@
 
         <tbody class="text-color-lighter">
 
-            <tr class="d-flex">
-            <th scope="row" class="col-1"> {{ story.title }}</th>
-            <th scope="row" class="col-1"> {{ story.genre}}</th>
-            <th scope="row" class="col-1"> {{ story.world }}</th>
+        <tr class="d-flex">
+            <th scope="row" class="col-4"> Title: {{ story.title }}</th>
+            <th scope="row" class="col-4"> Genre: {{ story.genre }}</th>
+            <th scope="row" class="col-4"> World: {{ story.world }}</th>
+        </tr>
+
+        <tr class="col-2">
+            <th scope="row" class="col-4"> Hero: {{ hero.name }}</th>
+            <th scope="row" class="col-4"> intelligence: {{ hero.intelligence }}</th>
+            <th scope="row" class="col-4"> strength: {{ hero.strength }}</th>
+            <th scope="row" class="col-4"> speed: {{ hero.speed }}</th>
+            <th scope="row" class="col-4"> durability: {{ hero.durability }}</th>
+            <th scope="row" class="col-4"> biography: {{ hero.biography }}</th>
+            <th scope="row" class="col-4"> alteregos: {{ hero.alteregos }}</th>
+            <th scope="row" class="col-4"> gender: {{ hero.gender }}</th>
+            <th scope="row" class="col-4"> race: {{ hero.race }}</th>
+            <th scope="row" class="col-4"> occupation: {{ hero.occupation }}</th>
+              <th>  <img src="{{ hero.image }}" alt="Hero"></th>
+
+        </tr>
 
 
-            <td class="col-2">
-                {{ hero.name }}
-            </td>
 
-                <img src="{{hero.image}}" alt="Hero">
-            <td class="col-7">
-                {{ story.content }}
-            </td>
 
-<a href="/modifystory/{{story.id}}/" class="btn btn-secondary" role="button">Start Your Story</a>
+        <a href="/modifystory/{{ story.id }}/" class="btn btn-secondary" role="button">Start Your Story</a>
 
         </tbody>
     </table>
