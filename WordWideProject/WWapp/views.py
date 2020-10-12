@@ -118,10 +118,19 @@ class LogoutView(View):
 class MyStoriesListView(LoginRequiredMixin, ListView):
     template_name = 'my_stories_list.html'
     model = Story
+    def get_queryset(self):
+        user = self.request.user
+        return Story.objects.filter(author=user)
+
 
 
 class RatingCreate(CreateView):
     model = Rating
-    fields = ['comment', 'stars']
+    fields = ['comment', 'stars', 'story']
     success_url = "/stories/"
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super(RatingCreate, self).get_context_data(*args, **kwargs)
+        ctx['story'] = self.kwargs['pk']
+        return ctx
 

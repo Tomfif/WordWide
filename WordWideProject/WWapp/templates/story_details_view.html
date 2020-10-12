@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 {% load static %}
 {% block content %}
     <h1>DRAWN STORY</h1>
@@ -6,7 +6,7 @@
 <form action="" method="post">
   {% csrf_token %}
 
-  {{ form.as_p }}
+  {{ object }}
 
 
 {% endblock %}
