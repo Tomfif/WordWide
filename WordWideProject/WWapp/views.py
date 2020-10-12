@@ -11,7 +11,7 @@ import requests
 from django.views import View
 
 from WWapp.models import Hero, Genre, World, Story, Title, Rating
-from django.views.generic import ListView, UpdateView, DetailView, FormView, CreateView
+from django.views.generic import ListView, UpdateView, DetailView, FormView, CreateView, DeleteView
 
 from WWapp.forms import AddUserForm, LoginUserForm, StoryForm
 
@@ -134,3 +134,7 @@ class RatingCreate(CreateView):
         ctx['story'] = self.kwargs['pk']
         return ctx
 
+class DeleteStory(DeleteView):
+    template_name = 'delete_story.html'
+    success_url = "/mystories/"
+    model = Story

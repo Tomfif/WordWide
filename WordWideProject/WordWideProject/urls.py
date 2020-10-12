@@ -18,7 +18,7 @@ from django.urls import path
 
 from WWapp.views import StoryDrawnView, LandingView, StoriesListView, StoryUpdate, StoryDetailsView, AddUserView, LoginUserView, LogoutView
 
-from WWapp.views import MyStoriesListView, RatingCreate
+from WWapp.views import MyStoriesListView, RatingCreate, DeleteStory
 
 
 
@@ -34,4 +34,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name="logout-user"),
     path('mystories/', MyStoriesListView.as_view()),
     path('rating/<int:pk>/', RatingCreate.as_view()),
+    path('deletestory/<int:pk>/', DeleteStory.as_view()),
 ]
