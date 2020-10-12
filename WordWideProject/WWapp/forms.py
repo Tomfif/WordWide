@@ -34,11 +34,14 @@ class LoginUserForm(forms.Form):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
 class StoryForm(forms.ModelForm):
-    title =  forms.CharField(disabled=True)
-    author =  forms.CharField(disabled=True)
-    genre =  forms.CharField(disabled=True)
-    hero =  forms.CharField(disabled=True)
-    world =  forms.CharField(disabled=True)
+    def __init__(self, *args, **kwargs):
+        super(StoryForm, self).__init__(*args, **kwargs)
+        self.fields['title'].disabled = True
+        self.fields['author'].disabled = True
+        self.fields['genre'].disabled = True
+        self.fields['hero'].disabled = True
+        self.fields['world'].disabled = True
+
     class Meta:
         model = Story
         fields = ['title', 'author', 'genre', 'hero', 'world', 'content']

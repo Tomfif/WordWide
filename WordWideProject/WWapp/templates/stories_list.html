@@ -1,17 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'index.html' %}
 {% load static %}
 {% block content %}
     <h1>Stories</h1>
     <table class="table border-bottom schedules-content">
         <thead>
-        <tr class="d-flex text-color-darker">
+        <tr class="d-flex text-color-lighter">
             <th scope="col" class="col-1">ID</th>
             <th scope="col" class="col-2">NAME</th>
             <th scope="col" class="col-7">TEXT</th>
             <th scope="col" class="col-2 center">ACTION</th>
         </tr>
         </thead>
-        <tbody class="text-color-lighter">
+        <tbody >
         {% for story in object_list %}
             <tr class="d-flex">
             <th scope="row" class="col-1"> {{ story.id }}</th>

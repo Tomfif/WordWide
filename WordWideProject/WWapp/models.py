@@ -121,7 +121,7 @@ class Story(models.Model):
 
 
 class Rating(models.Model):
-    comment = models.CharField(max_length=120)
+    comment = models.TextField(default="", blank=True, null=True)
     stars = models.PositiveIntegerField(choices=STARS_CHOICES, default=5)
     story = models.ForeignKey(Story, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
