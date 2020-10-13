@@ -7,9 +7,9 @@
         <tbody class="text-color-lighter">
 
         <tr class="d-flex">
-            <th scope="row" class="col-4"> Title: {{ story.title }}</th>
-            <th scope="row" class="col-4"> Genre: {{ story.genre }}</th>
-            <th scope="row" class="col-4"> World: {{ story.world }}</th>
+            <th scope="row" class="col-lg-9"> Title: {{ story.title }}</th>
+            <th scope="row" class="col-md-9"> Genre: {{ story.genre }}</th>
+            <th scope="row" class="col-md-9"> World: {{ story.world }}</th>
         </tr>
 
         <tr class="col-2">
@@ -23,14 +23,19 @@
             <th scope="row" class="col-4"> gender: {{ hero.gender }}</th>
             <th scope="row" class="col-4"> race: {{ hero.race }}</th>
             <th scope="row" class="col-4"> occupation: {{ hero.occupation }}</th>
-              <th>  <img src="{{ hero.image }}" alt="Hero"></th>
+
 
         </tr>
 
+        <tr>
+            <th><img src="{{ hero.image }}" alt="Hero"></th>
+        </tr>
 
 
-
-        <a href="/modifystory/{{ story.id }}/" class="btn btn-secondary" role="button">Start Your Story</a>
+        <tr>
+            <th><a href="/modifystory/{{ story.id }}/" class="btn btn-outline-primary" role="button">Start Your
+                Story</a></th>
+        </tr>
 
         </tbody>
     </table>

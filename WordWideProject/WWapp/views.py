@@ -50,15 +50,6 @@ class StoryDrawnView(View):
 
         return render(request, "storydrawn.html", context={"hero": hero, "genre": genre, "world": world, "story": story})
 
-    # def post(self, request):
-    #     title = request.POST.get('title')
-    #     hero = request.POST.get('hero')
-    #     author = request.POST.get('author')
-    #     genre = request.POST.get('genre')
-    #     world = request.POST.get('world')
-    #     story = Story.objects.create(title=title, hero=hero, author=author, genre=genre, world=world)
-    #     return redirect(f'/story/modify/{story.id}/')
-
 class LandingView(View):
     def get(self, request):
         ctx = {"actual_date": datetime.now()}
@@ -76,6 +67,11 @@ class StoryUpdate(UpdateView):
 class StoryDetailsView(DetailView):
     model = Story
     template_name = 'story_details_view.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(StoryDetailsView, self).get_context_data(**kwargs)
+        context['ratings'] = Rating.objects.filter(story_id=self.object.id).all()
+        return context
 
 
 class AddUserView(View):
@@ -118,6 +114,7 @@ class LogoutView(View):
 class MyStoriesListView(LoginRequiredMixin, ListView):
     template_name = 'my_stories_list.html'
     model = Story
+    redirect_field_name = "/404/"
     def get_queryset(self):
         user = self.request.user
         return Story.objects.filter(author=user)
@@ -126,12 +123,12 @@ class MyStoriesListView(LoginRequiredMixin, ListView):
 
 class RatingCreate(CreateView):
     model = Rating
-    fields = ['comment', 'stars', 'story']
+    fields = ['comment', 'stars', 'story', 'user']
     success_url = "/stories/"
 
-    def get_context_data(self, *args, **kwargs):
-        ctx = super(RatingCreate, self).get_context_data(*args, **kwargs)
-        ctx['story'] = self.kwargs['pk']
+    def get_context_data(self, **kwargs):
+        ctx = super(RatingCreate, self).get_context_data(**kwargs)
+        ctx['story'] = Story.objects.filter(pk=self.kwargs.get('pk'))
         return ctx
 
 class DeleteStory(DeleteView):
