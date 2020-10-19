@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
+    {% if user.is_authenticated %}
     <h1> My Stories</h1>
     <table class="table border-bottom schedules-content">
         <thead>
@@ -16,7 +17,7 @@
             <tr class="d-flex">
             <th scope="row" class="col-1"> {{ story.id }}</th>
             <td class="col-2">
-                {{ story.author }}({{ story.votes }})
+                {{ story.author }}
             </td>
             <td class="col-7">
                 {{ story.content }}
@@ -40,4 +41,8 @@
         <a href="/storydrawn/" class="btn btn-primary btn-lg btn-block" role="button">Draw new Story</a>
         </tbody>
     </table>
+        {% else %}
+        <a href="/login/" class="btn btn-primary btn-lg btn-block" role="button">You have to log in!</a>
+    {% endif %}
+
 {% endblock %}

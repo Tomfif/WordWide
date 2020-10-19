@@ -1,18 +1,35 @@
 import pytest
-
+from django.contrib.auth import get_user_model
 
 
 from WWapp.models import Genre, World, Title, Hero, Story, Rating
+from django.test import Client
 
 
 @pytest.fixture
+def client():
+    client = Client()
+    return client
+
+@pytest.fixture
+def user_data():
+    return {'mail': 'user_email@wp.pl', 'first_name':'name1', 'last_name':'name2',
+            'username':'usernnname1', 'password1':'pas1', 'password2':'pas1'}
+
+@pytest.fixture
+def create_test_user(user_data):
+    user_model = get_user_model()
+    test_user = user_model.objects.create_user(user_data)
+    return test_user
+
+@pytest.fixture
 def world():
-    world = World.objects.create(world='Swiat1')
+    world = World.objects.create(world=2)
     return world
 
 @pytest.fixture
 def genre():
-    genre = Genre.objects.create(genre='Gatunek1')
+    genre = Genre.objects.create(genre=1)
     return genre
 
 @pytest.fixture
@@ -28,8 +45,8 @@ def hero():
     return hero
 
 @pytest.fixture
-def story():
-    story = Story.objects.create(title='tytul11', author='autor', genre='genre11', hero='bohater1', world='swiat111')
+def story(create_test_user, genre, hero, world):
+    story = Story.objects.create(title='tytul11', author=create_test_user, genre=genre, hero=hero, world=world)
     return story
 
 @pytest.fixture

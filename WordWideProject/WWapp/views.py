@@ -102,7 +102,7 @@ class LoginUserView(FormView):
         if user is not None:
             login(self.request, user)
         else:
-            return HttpResponse("Invalid User")
+            return redirect('/login')
         return super(LoginUserView, self).form_valid(form)
 
 
