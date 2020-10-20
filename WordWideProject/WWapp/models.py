@@ -124,6 +124,6 @@ class Rating(models.Model):
     comment = models.TextField(default="", blank=True, null=True)
     stars = models.PositiveIntegerField(choices=STARS_CHOICES, default=5)
     story = models.ForeignKey(Story, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    nick = models.CharField(max_length=250, blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
 

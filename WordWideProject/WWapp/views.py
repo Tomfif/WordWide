@@ -13,9 +13,7 @@ from django.views import View
 from WWapp.models import Hero, Genre, World, Story, Title, Rating
 from django.views.generic import ListView, UpdateView, DetailView, FormView, CreateView, DeleteView
 
-from WWapp.forms import AddUserForm, LoginUserForm, StoryForm
-
-
+from WWapp.forms import AddUserForm, LoginUserForm, StoryForm, RatingForm
 
 
 class StoryDrawnView(View):
@@ -59,6 +57,7 @@ class StoriesListView(ListView):
     template_name = 'stories_list.html'
     model = Story
     ordering = ['-date_added']
+    paginate_by = 10
 
 class StoryUpdate(UpdateView):
     model = Story
@@ -116,6 +115,7 @@ class MyStoriesListView(LoginRequiredMixin, ListView):
     template_name = 'my_stories_list.html'
     model = Story
     redirect_field_name = "/404"
+    paginate_by = 10
     def get_queryset(self):
         user = self.request.user
         return Story.objects.filter(author=user)
@@ -124,13 +124,25 @@ class MyStoriesListView(LoginRequiredMixin, ListView):
 
 class RatingCreate(CreateView):
     model = Rating
-    fields = ['comment', 'stars', 'story', 'user']
+    form_class = RatingForm
     success_url = "/stories/"
 
-    def get_context_data(self, **kwargs):
-        ctx = super(RatingCreate, self).get_context_data(**kwargs)
-        ctx['story'] = Story.objects.filter(pk=self.kwargs.get('pk'))
-        return ctx
+
+    # def get_initial(self):
+    #     story = get_object_or_404(Story, id=self.kwargs.get('id'))
+    #     return {
+    #         'story': story,
+    #     }
+
+    # def get_context_data(self, **kwargs):
+    #     ctx = super(RatingCreate, self).get_context_data(**kwargs)
+    #     ctx['story'] = Story.objects.filter(pk=self.kwargs.get('pk'))
+    #     return ctx
+    # def get_queryset(self):
+    #     story = self.request.story
+    #     return Story.objects.filter(story=story)
+
+
 
 class DeleteStory(DeleteView):
     template_name = 'delete_story.html'

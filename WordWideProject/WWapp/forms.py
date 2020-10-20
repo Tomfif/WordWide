@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from WWapp.models import Story
+from WWapp.models import Story, Rating
 
 
 class AddUserForm(forms.Form):
@@ -45,3 +45,12 @@ class StoryForm(forms.ModelForm):
     class Meta:
         model = Story
         fields = ['title', 'author', 'genre', 'hero', 'world', 'content']
+
+class RatingForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RatingForm, self).__init__(*args, **kwargs)
+        self.fields['story'].disabled = True
+
+    class Meta:
+        model = Rating
+        fields = ['comment', 'stars', 'story', 'nick']

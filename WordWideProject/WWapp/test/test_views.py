@@ -46,7 +46,7 @@ def test_user_login(client, create_test_user, user_data):
 @pytest.mark.django_db
 def test_user_login(client):
     login_url = urls.reverse('login-user')
-    resp = client.post(login_url, data={'login':'tomek', 'password':'tom'})
+    resp = client.post(login_url, data={'login':'tomek', 'password':'tomek'})
     assert resp.status_code == 200
     # assert 'tomek' in str(resp.content)
 
@@ -73,7 +73,7 @@ def test_storydetails_ok(client, create_test_user, genre, hero, world):
 @pytest.mark.django_db
 def test_rating_ok(client, create_test_user, genre, hero, world):
     story = Story.objects.create(title='tytul11', author=create_test_user, genre=genre, hero=hero, world=world)
-    rating = Rating.objects.create(comment='komentarz', stars='3', story=story, user=create_test_user)
+    rating = Rating.objects.create(comment='komentarz', stars='3', story=story, nick='losowy')
     url = f'/rating/{rating.id}'
     response = client.get(url)
     assert response.status_code == 301
@@ -83,6 +83,9 @@ def test_rating_ok(client, create_test_user, genre, hero, world):
 def test_deletestory(client, create_test_user, genre, hero, world):
     story = Story.objects.create(title='tytul11', author=create_test_user, genre=genre, hero=hero, world=world)
     assert Story.objects.count() == 1
+    user = User.objects.create(username='user', password='user')
+    user.save()
+    client.force_login(user=user)
     url = f'/deletestory/{story.id}'
     response = client.get(url)
     assert response.status_code == 301
