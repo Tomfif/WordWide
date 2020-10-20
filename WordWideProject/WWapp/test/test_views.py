@@ -87,3 +87,5 @@ def test_deletestory(client, create_test_user, genre, hero, world):
     response = client.get(url)
     assert response.status_code == 301
     assert Story.objects.count() == 0
+
+

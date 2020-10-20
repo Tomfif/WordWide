@@ -58,6 +58,7 @@ class LandingView(View):
 class StoriesListView(ListView):
     template_name = 'stories_list.html'
     model = Story
+    ordering = ['-date_added']
 
 class StoryUpdate(UpdateView):
     model = Story
@@ -114,7 +115,7 @@ class LogoutView(View):
 class MyStoriesListView(LoginRequiredMixin, ListView):
     template_name = 'my_stories_list.html'
     model = Story
-    redirect_field_name = "/404/"
+    redirect_field_name = "/404"
     def get_queryset(self):
         user = self.request.user
         return Story.objects.filter(author=user)
