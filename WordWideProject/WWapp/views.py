@@ -119,22 +119,27 @@ class LoginUserView(FormView):
 
 
 class LogoutView(View):
+    """user logout view"""
     def get(self, request):
         logout(request)
         return redirect('/')
 
 class MyStoriesListView(LoginRequiredMixin, ListView):
+    """View that renders the current user stories list.
+            The view is available for logged in users"""
     template_name = 'my_stories_list.html'
     model = Story
     redirect_field_name = "/404"
     paginate_by = 10
     def get_queryset(self):
+        """method of filtering stories of logged in user"""
         user = self.request.user
         return Story.objects.filter(author=user)
 
 
 
 class RatingCreate(CreateView):
+    """view that creates the rating"""
     model = Rating
     form_class = RatingForm
     success_url = "/stories/"
@@ -157,6 +162,7 @@ class RatingCreate(CreateView):
 
 
 class DeleteStory(DeleteView):
+    """view that deletes the story of a logged in user"""
     template_name = 'delete_story.html'
     success_url = "/mystories/"
     model = Story
