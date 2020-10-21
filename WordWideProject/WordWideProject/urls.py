@@ -16,13 +16,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from WWapp.views import StoryDrawnView, LandingView, StoriesListView, StoryUpdate
+from WWapp.views import StoryDrawnView, LandingView, StoriesListView, StoryUpdate, StoryDetailsView, AddUserView, LoginUserView, LogoutView
+
+from WWapp.views import MyStoriesListView, RatingCreate, DeleteStory
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('storydrawn/', StoryDrawnView.as_view()),
-    path('', LandingView.as_view()),
-    path('stories/', StoriesListView.as_view()),
+    path('storydrawn/', StoryDrawnView.as_view(), name='storydrawn'),
+    path('', LandingView.as_view(), name='home'),
+    path('stories/', StoriesListView.as_view(), name='stories'),
     path('modifystory/<int:pk>/', StoryUpdate.as_view()),
+    path('story_details/<int:pk>/', StoryDetailsView.as_view()),
+    path('register/', AddUserView.as_view(), name="add-user"),
+    path('login/', LoginUserView.as_view(), name="login-user"),
+    path('logout/', LogoutView.as_view(), name="logout-user"),
+    path('mystories/', MyStoriesListView.as_view(), name='mystories'),
+    path('rating/<int:pk>/', RatingCreate.as_view()),
+    path('deletestory/<int:pk>/', DeleteStory.as_view()),
 ]

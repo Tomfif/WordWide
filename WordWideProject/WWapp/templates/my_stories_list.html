@@ -1,17 +1,18 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
-    <h1>Stories</h1>
+    {% if user.is_authenticated %}
+    <h1> My Stories</h1>
     <table class="table border-bottom schedules-content">
         <thead>
-        <tr class="d-flex text-color-lighter">
+        <tr class="d-flex text-color-darker">
             <th scope="col" class="col-1">ID</th>
             <th scope="col" class="col-2">NAME</th>
             <th scope="col" class="col-7">TEXT</th>
             <th scope="col" class="col-2 center">ACTION</th>
         </tr>
         </thead>
-        <tbody >
+        <tbody class="text-color-lighter">
         {% for story in object_list %}
             <tr class="d-flex">
             <th scope="row" class="col-1"> {{ story.id }}</th>
@@ -23,20 +24,26 @@
             </td>
             <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
 
-                <a href="/story_details/{{ story.id }}/"
-                   class="btn btn-info rounded-0 text-light m-1">Details</a>
-
-
-
-
-                <a href="/rating/{{ story.id }}/"
-                   class="btn btn-info rounded-0 text-light m-1">Comment</a>
+                <a href="/modifystory/{{ story.id }}/"
+                   class="btn btn-info rounded-0 text-light m-1">Edit</a>
 
             </td>
+            <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
+
+                <a href="/deletestory/{{ story.id }}/"
+                   class="btn btn-info rounded-0 text-light m-1">Delete</a>
+
+            </td>
+
         {% endfor %}
 
+
+        <a href="/storydrawn/" class="btn btn-primary btn-lg btn-block" role="button">Draw new Story</a>
         </tbody>
     </table>
+        {% else %}
+        <a href="/login/" class="btn btn-primary btn-lg btn-block" role="button">You have to log in!</a>
+    {% endif %}
 
     <div class="pagination">
     <span class="step-links">
@@ -54,5 +61,6 @@
         {% endif %}
     </span>
 </div>
+
 
 {% endblock %}

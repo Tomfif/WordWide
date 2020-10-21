@@ -1,4 +1,6 @@
+from django.contrib.auth.models import User
 from django.db import models
+from ckeditor.fields import RichTextField
 
 GENRE_CHOICES = (
     (-1, 'not defined'),
@@ -107,20 +109,21 @@ class Hero(models.Model):
 
 class Story(models.Model):
     title = models.CharField(max_length=250)
-    author = models.CharField(max_length=64, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
-    genre = models.OneToOneField(Genre, on_delete=models.CASCADE)
-    hero = models.OneToOneField(Hero, on_delete=models.CASCADE)
-    world = models.OneToOneField(World, on_delete=models.CASCADE)
-    content = models.TextField(default="", blank=True)
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE)
+    hero = models.ForeignKey(Hero, on_delete=models.CASCADE)
+    world = models.ForeignKey(World, on_delete=models.CASCADE)
+    content = RichTextField(default="", blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        return f'{self.author} {self.title} {self.genre.get_genre_display()} {self.hero} {self.world}'
+
 
 class Rating(models.Model):
-    comment = models.CharField(max_length=120)
+    comment = models.TextField(default="", blank=True, null=True)
     stars = models.PositiveIntegerField(choices=STARS_CHOICES, default=5)
     story = models.ForeignKey(Story, on_delete=models.CASCADE)
-
-
+    nick = models.CharField(max_length=250, blank=True, null=True)
+    date_added = models.DateTimeField(auto_now_add=True)
 

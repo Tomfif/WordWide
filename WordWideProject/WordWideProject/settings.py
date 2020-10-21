@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'WWapp',
+    'ckeditor',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'USER' : 'postgres',
         'PASSWORD' : 'coderslab',
-        'NAME' : 'worldwide',
+        'NAME' : 'wordwide',
         'HOST' : 'localhost'
     }
 }
