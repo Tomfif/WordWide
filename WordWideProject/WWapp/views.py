@@ -100,7 +100,7 @@ class AddUserView(View):
                 user.last_name = form.cleaned_data['last_name']
                 user.first_name = form.cleaned_data['first_name']
                 user.save()
-                return redirect('/')
+                return redirect('/mystories')
         return render(request, 'add_user.html', {'form': form})
 
 class LoginUserView(FormView):
@@ -114,7 +114,7 @@ class LoginUserView(FormView):
         if user is not None:
             login(self.request, user)
         else:
-            return redirect('/login')
+            return redirect('/')
         return super(LoginUserView, self).form_valid(form)
 
 
