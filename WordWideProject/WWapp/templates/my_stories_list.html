@@ -1,6 +1,7 @@
 {% extends 'index.html' %}
 {% load static %}
 {% block content %}
+    {% if user.is_authenticated %}
     <h1> My Stories</h1>
     <table class="table border-bottom schedules-content">
         <thead>
@@ -16,7 +17,7 @@
             <tr class="d-flex">
             <th scope="row" class="col-1"> {{ story.id }}</th>
             <td class="col-2">
-                {{ story.author }}({{ story.votes }})
+                {{ story.author }}
             </td>
             <td class="col-7">
                 {{ story.content }}
@@ -40,4 +41,26 @@
         <a href="/storydrawn/" class="btn btn-primary btn-lg btn-block" role="button">Draw new Story</a>
         </tbody>
     </table>
+        {% else %}
+        <a href="/login/" class="btn btn-primary btn-lg btn-block" role="button">You have to log in!</a>
+    {% endif %}
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+
 {% endblock %}

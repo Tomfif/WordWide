@@ -13,13 +13,12 @@ from django.views import View
 from WWapp.models import Hero, Genre, World, Story, Title, Rating
 from django.views.generic import ListView, UpdateView, DetailView, FormView, CreateView, DeleteView
 
-from WWapp.forms import AddUserForm, LoginUserForm, StoryForm
-
-
+from WWapp.forms import AddUserForm, LoginUserForm, StoryForm, RatingForm
 
 
 class StoryDrawnView(View):
     def get(self, request):
+        """View that randomizes the basic data for the story, such as the world, hero, title, genre."""
         rnd_hero = randint(1, 731)
         rnd_genre = randint(0, 21)
         rnd_world = randint(0, 9)
@@ -52,33 +51,44 @@ class StoryDrawnView(View):
 
 class LandingView(View):
     def get(self, request):
+        """View that renders the home page."""
         ctx = {"actual_date": datetime.now()}
         return render(request, "landing_page.html", ctx)
 
 class StoriesListView(ListView):
+    """View that renders the stories list.
+        The view is also available for non-logged in users"""
     template_name = 'stories_list.html'
     model = Story
+    ordering = ['-date_added']
+    paginate_by = 10
 
 class StoryUpdate(UpdateView):
+    """View in which you write or modify the story"""
     model = Story
     form_class = StoryForm
     success_url = "/"
 
 class StoryDetailsView(DetailView):
+    """View that renders the story details."""
     model = Story
     template_name = 'story_details_view.html'
 
     def get_context_data(self, **kwargs):
+        """method that returns all grades for a given story"""
         context = super(StoryDetailsView, self).get_context_data(**kwargs)
         context['ratings'] = Rating.objects.filter(story_id=self.object.id).all()
         return context
 
 
 class AddUserView(View):
+    """user registration view"""
     def get(self, request):
+        """form rendering method"""
         form = AddUserForm()
         return render(request, 'add_user.html', {'form': form})
     def post(self, request):
+        """method that validates the form and creates a user"""
         form = AddUserForm(request.POST)
         if form.is_valid():
             if User.objects.filter(username=form.cleaned_data['username']).exists():
@@ -90,48 +100,69 @@ class AddUserView(View):
                 user.last_name = form.cleaned_data['last_name']
                 user.first_name = form.cleaned_data['first_name']
                 user.save()
-                return redirect('/')
+                return redirect('/mystories')
         return render(request, 'add_user.html', {'form': form})
 
 class LoginUserView(FormView):
+    """user login view"""
     template_name = 'login_user.html'
     form_class = LoginUserForm
     success_url = '/'
     def form_valid(self, form):
+        """method that validates the form and login a user"""
         user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
         if user is not None:
             login(self.request, user)
         else:
-            return HttpResponse("Invalid User")
+            return redirect('/')
         return super(LoginUserView, self).form_valid(form)
 
 
 class LogoutView(View):
+    """user logout view"""
     def get(self, request):
         logout(request)
         return redirect('/')
 
 class MyStoriesListView(LoginRequiredMixin, ListView):
+    """View that renders the current user stories list.
+            The view is available for logged in users"""
     template_name = 'my_stories_list.html'
     model = Story
-    redirect_field_name = "/404/"
+    redirect_field_name = "/404"
+    paginate_by = 10
     def get_queryset(self):
+        """method of filtering stories of logged in user"""
         user = self.request.user
         return Story.objects.filter(author=user)
 
 
 
 class RatingCreate(CreateView):
+    """view that creates the rating"""
     model = Rating
-    fields = ['comment', 'stars', 'story', 'user']
+    form_class = RatingForm
     success_url = "/stories/"
 
-    def get_context_data(self, **kwargs):
-        ctx = super(RatingCreate, self).get_context_data(**kwargs)
-        ctx['story'] = Story.objects.filter(pk=self.kwargs.get('pk'))
-        return ctx
+
+    # def get_initial(self):
+    #     story = get_object_or_404(Story, id=self.kwargs.get('id'))
+    #     return {
+    #         'story': story,
+    #     }
+
+    # def get_context_data(self, **kwargs):
+    #     ctx = super(RatingCreate, self).get_context_data(**kwargs)
+    #     ctx['story'] = Story.objects.filter(pk=self.kwargs.get('pk'))
+    #     return ctx
+    # def get_queryset(self):
+    #     story = self.request.story
+    #     return Story.objects.filter(story=story)
+
+
 
 class DeleteStory(DeleteView):
+    """view that deletes the story of a logged in user"""
     template_name = 'delete_story.html'
     success_url = "/mystories/"
     model = Story
