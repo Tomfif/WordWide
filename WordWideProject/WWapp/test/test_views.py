@@ -159,6 +159,7 @@ def test_deletestory(client, create_test_user, genre, hero, world):
     assert response.status_code == 301
     assert Story.objects.count() == 0
 
+
 @pytest.mark.django_db
 def test_my_stories(client, create_test_user, genre, hero, world):
     story = Story.objects.create(title='tytul11', author=create_test_user, genre=genre, hero=hero, world=world)
