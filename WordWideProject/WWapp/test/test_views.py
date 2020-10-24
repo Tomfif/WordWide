@@ -186,7 +186,7 @@ def test_my_stories(client):
 def test_storydrawn(client):
     url = f'/storydrawn/'
     response = client.get(url)
-    assert response.status_code == 404
+    assert response.status_code == 40
     user = User.objects.create_user(username='tt', password='tt')
     user.save()
     client.force_login(user=user)
