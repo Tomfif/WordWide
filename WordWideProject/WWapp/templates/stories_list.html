@@ -7,6 +7,7 @@
         <tr class="d-flex text-color-lighter">
             <th scope="col" class="col-1">ID</th>
             <th scope="col" class="col-2">NAME</th>
+            <th scope="col" class="col-2">TITLE</th>
             <th scope="col" class="col-7">TEXT</th>
             <th scope="col" class="col-2 center">ACTION</th>
         </tr>
@@ -17,6 +18,9 @@
             <th scope="row" class="col-1"> {{ story.id }}</th>
             <td class="col-2">
                 {{ story.author }}
+            </td>
+            <td class="col-2">
+                {{ story.title }}
             </td>
             <td class="col-7">
                 {{ story.content }}

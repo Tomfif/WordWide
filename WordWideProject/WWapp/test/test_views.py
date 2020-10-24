@@ -99,9 +99,7 @@ class LogInTest(TestCase):
 
 @pytest.mark.django_db
 def test_logout(client):
-    user = User.objects.create_user(username='tt', password='tt')
-    user.save()
-    client.force_login(user=user)
+    client.login(user='aga', password='aga')
     url = '/logout/'
     response = client.get(url, follow=True)
     assert response.status_code == 200
@@ -136,27 +134,23 @@ def test_storydetails_ok(client, story):
 
 
 @pytest.mark.django_db
-def test_rating_ok(client, create_test_user, genre, hero, world):
-    story = Story.objects.create(title='tytul11', author=create_test_user, genre=genre, hero=hero, world=world)
-    rating = Rating.objects.create(comment='komentarz', stars='3', story=story, nick='losowy')
-    url = f'/rating/{rating.id}/'
-    response = client.get(url)
-    assert response.status_code == 301
-    assert str(rating.comment) == 'komentarz'
-    assert str(rating.nick) == 'losowy'
+def test_rating_ok(client, rating, story):
+    url = f'/rating/{story.id}/'
+    response = client.post(url)
+    assert response.status_code == 200
+    assert Rating.objects.count() == 1
 
 
-# @pytest.mark.django_db
-# def test_deletestory(client, create_test_user, genre, hero, world):
-#     story = Story.objects.create(title='tytul11', author=create_test_user, genre=genre, hero=hero, world=world)
-#     assert Story.objects.count() == 1
-#     user = User.objects.create(username='user', password='user')
-#     user.save()
-#     client.force_login(user=user)
-#     url = f'/deletestory/{story.id}'
-#     response = client.post(url, follow=True)
-#     assert response.status_code == 200
-#     assert Story.objects.count() == 0
+@pytest.mark.django_db
+def test_deletestory(client, story):
+    assert Story.objects.count() == 1
+    user = User.objects.create(username='user', password='user')
+    user.save()
+    client.force_login(user=user)
+    url = f'/deletestory/{story.id}'
+    response = client.post(url, follow=True)
+    assert response.status_code == 200
+    assert Story.objects.count() == 0
 
 
 @pytest.mark.django_db
@@ -165,7 +159,7 @@ def test_stories(client, stories):
     response = client.get(url)
     assert response.status_code == 200
     assert Story.objects.count() == 3
-    assert len(response.context['story']) == 3
+    assert response.context['object_list'][1].title == 'tytul22'
 
 
 @pytest.mark.django_db
@@ -184,9 +178,6 @@ def test_my_stories(client):
 
 @pytest.mark.django_db
 def test_storydrawn(client):
-    url = f'/storydrawn/'
-    response = client.get(url)
-    assert response.status_code == 404
     user = User.objects.create_user(username='tt', password='tt')
     user.save()
     client.force_login(user=user)
@@ -195,3 +186,4 @@ def test_storydrawn(client):
     response = client.get(url)
     assert response.status_code == 200
     assert Story.objects.count() == 1
+

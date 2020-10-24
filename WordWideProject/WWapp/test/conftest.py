@@ -58,8 +58,8 @@ def story(create_test_user, genre, hero, world):
 
 
 @pytest.fixture
-def rating():
-    rating = Rating.objects.create(comment='komentarz1', stars='3', story='opow1', user='user1')
+def rating(story):
+    rating = Rating.objects.create(comment='komentarz1', stars='3', story=story, nick='user1')
     return rating
 
 
