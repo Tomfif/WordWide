@@ -142,7 +142,6 @@ class MyStoriesListView(LoginRequiredMixin, ListView):
             The view is available for logged in users"""
     template_name = 'my_stories_list.html'
     model = Story
-    redirect_field_name = "/404"
     paginate_by = 10
 
     def get_queryset(self):
