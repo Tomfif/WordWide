@@ -38,8 +38,10 @@ class StoryDrawnView(View):
         race = data_hero['appearance']['race']
         occupation = data_hero['work']['occupation']
         image = data_hero['image']['url']
-        hero = Hero.objects.create(name=name, intelligence=intelligence, strength=strength, speed=speed, durability=durability,
-                                   biography=full_name, alteregos=alteregos, gender=gender, race=race, occupation=occupation,
+        hero = Hero.objects.create(name=name, intelligence=intelligence, strength=strength, speed=speed,
+                                   durability=durability,
+                                   biography=full_name, alteregos=alteregos, gender=gender, race=race,
+                                   occupation=occupation,
                                    image=image)
         genre = Genre.objects.create(genre=rnd_genre)
         world = World.objects.create(world=rnd_world)
@@ -47,13 +49,16 @@ class StoryDrawnView(View):
 
         story = Story.objects.create(title=title, hero=hero, genre=genre, world=world, author=self.request.user)
 
-        return render(request, "storydrawn.html", context={"hero": hero, "genre": genre, "world": world, "story": story})
+        return render(request, "storydrawn.html",
+                      context={"hero": hero, "genre": genre, "world": world, "story": story})
+
 
 class LandingView(View):
     def get(self, request):
         """View that renders the home page."""
         ctx = {"actual_date": datetime.now()}
         return render(request, "landing_page.html", ctx)
+
 
 class StoriesListView(ListView):
     """View that renders the stories list.
@@ -63,11 +68,13 @@ class StoriesListView(ListView):
     ordering = ['-date_added']
     paginate_by = 10
 
+
 class StoryUpdate(UpdateView):
     """View in which you write or modify the story"""
     model = Story
     form_class = StoryForm
-    success_url = "/"
+    success_url = "/mystories"
+
 
 class StoryDetailsView(DetailView):
     """View that renders the story details."""
@@ -83,10 +90,12 @@ class StoryDetailsView(DetailView):
 
 class AddUserView(View):
     """user registration view"""
+
     def get(self, request):
         """form rendering method"""
         form = AddUserForm()
         return render(request, 'add_user.html', {'form': form})
+
     def post(self, request):
         """method that validates the form and creates a user"""
         form = AddUserForm(request.POST)
@@ -100,29 +109,33 @@ class AddUserView(View):
                 user.last_name = form.cleaned_data['last_name']
                 user.first_name = form.cleaned_data['first_name']
                 user.save()
-                return redirect('/mystories')
+                return redirect('/login')
         return render(request, 'add_user.html', {'form': form})
+
 
 class LoginUserView(FormView):
     """user login view"""
     template_name = 'login_user.html'
     form_class = LoginUserForm
     success_url = '/'
+
     def form_valid(self, form):
         """method that validates the form and login a user"""
         user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
         if user is not None:
             login(self.request, user)
         else:
-            return redirect('/')
+            return redirect('/login')
         return super(LoginUserView, self).form_valid(form)
 
 
 class LogoutView(View):
     """user logout view"""
+
     def get(self, request):
         logout(request)
-        return redirect('/')
+        return redirect('/login')
+
 
 class MyStoriesListView(LoginRequiredMixin, ListView):
     """View that renders the current user stories list.
@@ -131,11 +144,11 @@ class MyStoriesListView(LoginRequiredMixin, ListView):
     model = Story
     redirect_field_name = "/404"
     paginate_by = 10
+
     def get_queryset(self):
         """method of filtering stories of logged in user"""
         user = self.request.user
         return Story.objects.filter(author=user)
-
 
 
 class RatingCreate(CreateView):
@@ -144,21 +157,12 @@ class RatingCreate(CreateView):
     form_class = RatingForm
     success_url = "/stories/"
 
-
-    # def get_initial(self):
-    #     story = get_object_or_404(Story, id=self.kwargs.get('id'))
-    #     return {
-    #         'story': story,
-    #     }
-
-    # def get_context_data(self, **kwargs):
-    #     ctx = super(RatingCreate, self).get_context_data(**kwargs)
-    #     ctx['story'] = Story.objects.filter(pk=self.kwargs.get('pk'))
-    #     return ctx
-    # def get_queryset(self):
-    #     story = self.request.story
-    #     return Story.objects.filter(story=story)
-
+    def get_initial(self):
+        """method of passing the story ID"""
+        initial = super(RatingCreate, self).get_initial()
+        story = get_object_or_404(Story, id=self.kwargs.get('pk'))
+        initial['story'] = story
+        return initial
 
 
 class DeleteStory(DeleteView):
