@@ -10,7 +10,7 @@ class AddUserForm(forms.Form):
     password2 = forms.CharField(label='Password', widget=forms.PasswordInput)
     first_name = forms.CharField(label='first_name', max_length=100)
     last_name = forms.CharField(label='last_name', max_length=100)
-    mail = forms.EmailField(label='mail', max_length=100,)
+    mail = forms.EmailField(label='mail', max_length=100, )
 
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
@@ -33,6 +33,7 @@ class LoginUserForm(forms.Form):
     username = forms.CharField(label='Login', max_length=100)
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
+
 class StoryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(StoryForm, self).__init__(*args, **kwargs)
@@ -45,6 +46,7 @@ class StoryForm(forms.ModelForm):
     class Meta:
         model = Story
         fields = ['title', 'author', 'genre', 'hero', 'world', 'content']
+
 
 class RatingForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

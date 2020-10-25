@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model, authenticate
 import pytest
 from django.contrib.auth.models import User
 
-
 from WWapp.models import Story, Rating
 
 
@@ -147,7 +146,7 @@ def test_deletestory(client, story):
     user = User.objects.create(username='user', password='user')
     user.save()
     client.force_login(user=user)
-    url = f'/deletestory/{story.id}'
+    url = f'/deletestory/{story.id}/'
     response = client.post(url, follow=True)
     assert response.status_code == 200
     assert Story.objects.count() == 0
@@ -186,4 +185,3 @@ def test_storydrawn(client):
     response = client.get(url)
     assert response.status_code == 200
     assert Story.objects.count() == 1
-

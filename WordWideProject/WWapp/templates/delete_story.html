@@ -2,8 +2,8 @@
 {% block content %}
     Delete the story!<br>
     <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Delete!">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Delete!">
     </form>
 {% endblock %}

@@ -4,7 +4,7 @@ from ckeditor.fields import RichTextField
 
 GENRE_CHOICES = (
     (-1, 'not defined'),
-    (0, 'Journalism' ),
+    (0, 'Journalism'),
     (1, 'Biography'),
     (2, 'Western'),
     (3, 'Travel'),
@@ -42,7 +42,7 @@ STARS_CHOICES = (
 
 WORLD_CHOICES = (
     (-1, 'not defined'),
-    (0, 'Middle-Earth from The Lord of the Rings' ),
+    (0, 'Middle-Earth from The Lord of the Rings'),
     (1, 'Narnia from The Chronicles of Narnia'),
     (2, 'Westeros from A Game of Thrones'),
     (3, 'The Unnamed Land in Robert Jordan’s Wheel of Time'),
@@ -53,7 +53,6 @@ WORLD_CHOICES = (
     (8, 'Wonderland from Alice’s Adventures in Wonderland'),
     (9, 'Neverland from Peter Pan'),
 )
-
 
 TITLE_CHOICES = (
     (-1, 'not defined'),
@@ -69,6 +68,7 @@ TITLE_CHOICES = (
     (9, "The Spell in the Dusk"),
     (10, "Wet Wild Winter"),
 )
+
 
 class Genre(models.Model):
     genre = models.SmallIntegerField(choices=GENRE_CHOICES, default=-1)
@@ -107,6 +107,7 @@ class Hero(models.Model):
     def __str__(self):
         return self.name
 
+
 class Story(models.Model):
     title = models.CharField(max_length=250)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -126,4 +127,3 @@ class Rating(models.Model):
     story = models.ForeignKey(Story, on_delete=models.CASCADE)
     nick = models.CharField(max_length=250, blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
-
