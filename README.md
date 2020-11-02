@@ -1,4 +1,5 @@
 # WordWide
+
 What is this app?
 WordWide is an original project that allows creators to face other beginners as well as advanced writers.
 We write short stories in it, which are then evaluated and commented on. Ultimately, stories with the highest ratings will be regularly awarded and promoted, which gives the opportunity to 'be noticed'.
@@ -21,6 +22,4 @@ Intellectual development.
 Technologies used: Python, Django Framework, PostgreSQL, Boostrap.
 The application has been tested using Pytest.
 I work on branches and pull requests to further train my Git skills.
-
-
 
